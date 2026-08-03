@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quotes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --paper: #efe9dc;
+    --ink: #26221c;
+    --rule: #b9ae96;
+    --accent: #7a3b2e;
+    --accent-2: #556b4f;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Fraunces', serif;
+    background-image: radial-gradient(circle at 1px 1px, rgba(38,34,28,0.06) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    border-top:3px solid var(--ink);
+    border-bottom:1px solid var(--ink);
+    padding:18px 6vw;
+    font-family:'Space Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    font-size:11px;
+    position:sticky;
+    top:0;
+    background:var(--paper);
+    z-index:10;
+  }
+
+  header span:nth-child(2){ color:var(--accent); }
+
+  .hero{
+    max-width:760px;
+    margin:0 auto;
+    padding:10vh 6vw 6vh;
+    text-align:center;
+  }
+
+  .hero h1{
+    font-weight:300;
+    font-style:italic;
+    font-size:clamp(32px, 6vw, 54px);
+    margin:0 0 18px;
+    line-height:1.15;
+  }
+
+  .hero p{
+    font-family:'Space Mono', monospace;
+    font-size:13px;
+    color:var(--ink);
+    opacity:0.65;
+    letter-spacing:0.04em;
+    margin:0 0 40px;
+  }
+
+  .categories{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+  }
+
+  .cat-btn{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    background:transparent;
+    color:var(--ink);
+    border:1px solid var(--ink);
+    padding:10px 18px;
+    cursor:pointer;
+    transition:background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  }
+
+  .cat-btn:hover{ background:var(--ink); color:var(--paper); }
+  .cat-btn:active{ transform:translateY(1px); }
+  .cat-btn.active{ background:var(--accent); color:var(--paper); border-color:var(--accent); }
+  .cat-btn:focus-visible{ outline:2px solid var(--accent-2); outline-offset:3px; }
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:4vh 6vw 14vh;
+  }
+
+  .quote-block{
+    padding:6vh 0;
+    border-bottom:1px solid var(--rule);
+  }
+
+  .quote-block:last-child{ border-bottom:none; }
+
+  .tags{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    color:var(--accent);
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    margin-bottom:16px;
+    opacity:0.85;
+  }
+
+  blockquote{
+    margin:0;
+    font-weight:300;
+    font-style:italic;
+    font-size:clamp(24px, 3.6vw, 36px);
+    line-height:1.3;
+    letter-spacing:-0.01em;
+  }
+
+  blockquote::before{ content:"\201C"; color:var(--accent); font-style:normal; }
+  blockquote::after{ content:"\201D"; color:var(--accent); font-style:normal; }
+
+  .attribution{
+    margin-top:24px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    font-family:'Space Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.04em;
+  }
+
+  .attribution .line{
+    width:34px; height:1px; background:var(--ink);
+  }
+
+  .empty-msg{
+    text-align:center;
+    font-family:'Space Mono', monospace;
+    font-size:13px;
+    opacity:0.6;
+    padding:8vh 0;
+    display:none;
+  }
+
+  footer{
+    text-align:center;
+    padding:6vh 6vw;
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    color:var(--ink);
+    opacity:0.5;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+
+  @media (max-width:480px){
+    header{ font-size:9px; padding:14px 6vw; }
+    .cat-btn{ font-size:11px; padding:9px 14px; }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <span>Vol. I — Daily Print</span>
+    <span>Quotes</span>
+  </header>
+
+  <section class="hero" id="top">
+    <h1>A small collection of quotes</h1>
+    <p>Choose a category, then scroll down to read</p>
+
+    <div class="categories" id="categories">
+      <button class="cat-btn active" data-cat="all">All</button>
+      <button class="cat-btn" data-cat="wisdom">Wisdom</button>
+      <button class="cat-btn" data-cat="life">Life</button>
+      <button class="cat-btn" data-cat="success">Success</button>
+      <button class="cat-btn" data-cat="courage">Courage</button>
+    </div>
+  </section>
+
+  <main>
+    <div id="list"></div>
+    <div class="empty-msg" id="empty">Nothing here yet in this category.</div>
+  </main>
+
+  <footer>End of collection</footer>
+
+<script>
+  const quotes = [
+    { text: "The unexamined life is not worth living.", author: "Socrates", cat: "wisdom" },
+    { text: "I think, therefore I am.", author: "René Descartes", cat: "wisdom" },
+    { text: "Whereof one cannot speak, thereof one must be silent.", author: "Ludwig Wittgenstein", cat: "wisdom" },
+    { text: "He who has a why to live can bear almost any how.", author: "Friedrich Nietzsche", cat: "life" },
+    { text: "The only true wisdom is in knowing you know nothing.", author: "Socrates", cat: "wisdom" },
+    { text: "We are what we repeatedly do. Excellence, then, is not an act but a habit.", author: "Aristotle", cat: "success" },
+    { text: "Man is condemned to be free.", author: "Jean-Paul Sartre", cat: "life" },
+    { text: "It is not the mountain we conquer, but ourselves.", author: "Edmund Hillary", cat: "courage" },
+    { text: "Not all those who wander are lost.", author: "J.R.R. Tolkien", cat: "life" },
+    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs", cat: "success" },
+    { text: "In the middle of difficulty lies opportunity.", author: "Albert Einstein", cat: "success" },
+    { text: "Simplicity is the ultimate sophistication.", author: "Leonardo da Vinci", cat: "wisdom" },
+    { text: "Fortune favors the bold.", author: "Virgil", cat: "courage" },
+    { text: "It always seems impossible until it's done.", author: "Nelson Mandela", cat: "courage" },
+    { text: "Life is what happens while you are busy making other plans.", author: "John Lennon", cat: "life" }
+  ];
+
+  const list = document.getElementById('list');
+  const emptyMsg = document.getElementById('empty');
+  const buttons = document.querySelectorAll('.cat-btn');
+  const catLabel = { wisdom: "Wisdom", life: "Life", success: "Success", courage: "Courage" };
+
+  function render(filter){
+    list.innerHTML = '';
+    const filtered = quotes.filter(q => filter === 'all' || q.cat === filter);
+
+    filtered.forEach((q, i) => {
+      const block = document.createElement('div');
+      block.className = 'quote-block';
+      block.innerHTML = `
+        <div class="tags">${catLabel[q.cat]}</div>
+        <blockquote>${q.text}</blockquote>
+        <div class="attribution">
+          <div class="line"></div>
+          <span>${q.author}</span>
+        </div>
+      `;
+      list.appendChild(block);
+    });
+
+    emptyMsg.style.display = filtered.length === 0 ? 'block' : 'none';
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render(btn.dataset.cat);
+      document.getElementById('list').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  render('all');
+</script>
+
+</body>
+</html>
